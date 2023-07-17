@@ -1,3 +1,4 @@
+import os
 import numpy as np
 from numpy.lib.npyio import load
 import tensorflow as tf
@@ -29,10 +30,10 @@ def get_data(model, train_path, val_path):
     
 def main():
     print("##### load data and preprocess data #####")
-    model = keras.models.load_model('C:/University/DAVI/facenet/fatigue_detector/model/facenet_keras.h5')
+    model = keras.models.load_model(os.path.abspath('../model/facenet_keras.h5'))
     trainX, trainy, testX, testy = get_data(model, 
-                                    'C:/University/DAVI/customdataset/train',
-                                    'C:/University/DAVI/customdataset/val')
+                                    os.path.abspath('../dataset/train'),
+                                    os.path.abspath('../dataset/val'))
     in_encoder = preprocessing.Normalizer(norm='l2')#방향벡터의 개념, 벡터를 정규화시켜서 거리가 1로 바꿔줌
     trainX = in_encoder.transform(trainX)
     testX = in_encoder.transform(testX)
@@ -41,7 +42,7 @@ def main():
     out_encoder.fit(trainy)
     trainy = out_encoder.transform(trainy)
     testy = out_encoder.transform(testy)
-    with open('C:/University/DAVI/facenet/fatigue_detector/model/fatigue_labeler.pkl','wb') as f:#open pkl and save out_encoder
+    with open('../model/class_labeler.pkl','wb') as f:#open pkl and save out_encoder
         pickle.dump(out_encoder,f)
 
     # fit model
@@ -63,7 +64,7 @@ def main():
     print(testy)
     score_test = accuracy_score(testy, yhat_test)
     print("Accuracy: train=%.3f, test=%.3f" % (score_train*100, score_test*100))
-    joblib.dump(classifier, 'C:/University/DAVI/facenet/fatigue_detector/model/fatigue_classifier.pkl')
+    joblib.dump(classifier, '../model/class_classifier.pkl')
     
     
 
