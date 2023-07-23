@@ -30,7 +30,7 @@ def get_data(model, train_path, val_path):
     
 def main():
     print("##### load data and preprocess data #####")
-    model = keras.models.load_model(os.path.abspath('../model/facenet_keras.h5'))
+    model = keras.models.load_model(os.path.abspath('model/facenet_keras.h5'))
     trainX, trainy, testX, testy = get_data(model, 
                                     os.path.abspath('../dataset/train'),
                                     os.path.abspath('../dataset/val'))
