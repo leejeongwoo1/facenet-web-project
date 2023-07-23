@@ -2,11 +2,11 @@ import joblib
 import os
 import numpy as np
 from numpy.lib.shape_base import expand_dims
-from embeddings import extract_face, get_embedding    # 얼굴영역 추출, embedding vector로 변환
+from embeddings import extract_face, get_embedding    
 from tensorflow import keras
-from PIL import Image, ImageDraw, ImageFont     #이미지 크기 변경
-from mtcnn import mtcnn    #얼굴 탐색
-from sklearn import preprocessing    #전처리
+from PIL import Image, ImageDraw, ImageFont     
+from mtcnn import mtcnn    
+from sklearn import preprocessing
 from flask import Flask, jsonify, request
 from waitress import serve
 import io
@@ -14,20 +14,20 @@ import base64
 
 model = keras.models.load_model('../model/facenet_keras.h5')    # FaceNet model
 classifier = joblib.load('../model/class_classifier.pkl')    # 학습된 SVM classifier      
-out_encoder = joblib.load('../model/class_labeler.pkl')    # classifier가 예측한 원핫벡터를 문자열 label로 변화하는 LabelEncoder
+out_encoder = joblib.load('../model/class_labeler.pkl')    # LabelEncoder
 app = Flask(__name__)
 
 def make_prediction(input):
     pass
 
-@app.route('/lovelyz', methods=['POST'])    #api의 url : /lovelyz
+@app.route('/lovelyz', methods=['POST']) 
 def predict():
     if request.method == 'POST':
         file = request.files.get('file', '')
         img_bytes = file.read()    
         face = extract_face(io.BytesIO(img_bytes))    # 1. 얼굴 영역 추출 후 원하는 size로 이미지 return 
         embedding = get_embedding(model, face)    # 2. FaceNet model설정에 맞게 embedding vector로 변환
-        embedding = expand_dims(embedding, axis=0)   #get_embedding에서 이미 하지 않았나?
+        embedding = expand_dims(embedding, axis=0)   #(get_embedding에서 이미 하지 않았나?)
 
         # 임베딩 벡터를 단위 벡터로 변환
         in_encoder = preprocessing.Normalizer(norm='l2')    
@@ -55,7 +55,7 @@ def predict():
         img.save(ret_bytes, format="PNG")
         ret = base64.encodebytes(ret_bytes.getvalue()).decode('ascii')
 
-        # 예측 정답, 예측 확률, 얼굴 추출된 입력 이미지 output 
+        # 예측 정답, 예측 확률, 얼굴 추출된 입력 이미지 output
         output = dict()
         output['label'] = label[0]
         output['prob'] = round(prob[0][yhat][0]*100, 3)
