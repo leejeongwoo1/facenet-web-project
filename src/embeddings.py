@@ -4,7 +4,7 @@ import numpy as np
 from mtcnn import mtcnn
 from silence_tensorflow import silence_tensorflow
 silence_tensorflow()
-
+import keras
 def extract_face(filename, size=(160,160)):
     # 입력 이미지(filename)에서 얼굴 추출(MTCNN)
     img = PIL.Image.open(filename).convert('RGB')
@@ -57,7 +57,19 @@ def get_embedding(model, face_pixels):
     yhat = model.predict(samples)
     return yhat[0]
 
-if __name__ == '__main__':
-    trainX, trainy = load_dataset('..\\dataset\\train')
-    print(trainX.shape, trainy.shape)
+def get_embedding_from_one_pic(model, face_path):
+    img = PIL.Image.open(face_path).convert('RGB')
+    pixels = np.asarray(img)
+    face_pixels = pixels.astype('float32')
+    mean, std = face_pixels.mean(), face_pixels.std()
 
+    face_pixels = (face_pixels - mean)/std
+    samples = np.expand_dims(face_pixels, axis=0)
+
+    yhat = model.predict(samples)
+    return yhat[0]
+
+if __name__ == '__main__':
+    model = keras.models.load_model(os.path.abspath('../model/facenet_keras.h5'))
+    embed = get_embedding_from_one_pic(model,'../dataset/faculty/face_img/소프트웨어융합학과_강형엽.jpg')
+    print(embed)

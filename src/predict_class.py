@@ -12,7 +12,7 @@ import train_keras
 import os
 def predict(filename):
   pixels = extract_face(filename)
-  facenet_model = keras.models.load_model(os.path.abspath('../model/facenet_keras.h5'))
+  facenet_model = keras.models.load_model('../model/facenet_keras.h5')
   fatigue_classifier_model = joblib.load(os.path.abspath('../model/class_classifier.pkl'))
   fatigue_labeler_model = joblib.load(os.path.abspath('../model/class_labeler.pkl'))
   newTrainX=[1]
