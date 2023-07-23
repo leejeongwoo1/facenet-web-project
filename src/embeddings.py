@@ -6,11 +6,13 @@ from silence_tensorflow import silence_tensorflow
 silence_tensorflow()
 import keras
 def extract_face(filename, size=(160,160)):
+    # 입력 이미지(filename)에서 얼굴 추출(MTCNN)
     img = PIL.Image.open(filename).convert('RGB')
     pixels = np.asarray(img)
     det = mtcnn.MTCNN()
-    results = det.detect_faces(pixels)
+    results = det.detect_faces(pixels)    
 
+    # 원하는 size로 얼굴 추출된 이미지 변환(PIL)
     x1, y1 , width, height = results[0]['box']
     x1, y1 = abs(x1), abs(y1)
     face = pixels[y1: y1+height, x1:x1+width]
@@ -43,13 +45,15 @@ def load_dataset(directory):
     print("load data finished")
     return np.asarray(X), np.asarray(y)
 
+# FactNet model의 설정에 맞춰 preprocessing
 def get_embedding(model, face_pixels):
     face_pixels = face_pixels.astype('float32')
     mean, std = face_pixels.mean(), face_pixels.std()
     
-    face_pixels = (face_pixels - mean)/std
-    samples = np.expand_dims(face_pixels, axis=0)
+    face_pixels = (face_pixels - mean)/std    # 얼굴 이미지를 이미지 전체 픽셀값의 평균, 표준편차로  standardization
+    samples = np.expand_dims(face_pixels, axis=0)    # 배치 차원으로 한 차원 증가
 
+    #FaceNet model에 preprocessing완료한 이미지 입력
     yhat = model.predict(samples)
     return yhat[0]
 
