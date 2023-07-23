@@ -12,9 +12,9 @@ from waitress import serve
 import io
 import base64
 
-model = keras.models.load_model('facenet_keras.h5')
-classifier = joblib.load('lovelyz_classifier.pkl')
-out_encoder = joblib.load('lovelyz_labeler.pkl')
+model = keras.models.load_model('../model/facenet_keras.h5')
+classifier = joblib.load('../model/class_classifier.pkl')
+out_encoder = joblib.load('../model/class_labeler.pkl')
 app = Flask(__name__)
 
 def make_prediction(input):
