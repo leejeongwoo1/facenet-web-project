@@ -5,12 +5,12 @@
     <title>Title</title>
 </head>
 <body style="box-sizing: border-box; width:100%; height:100vh; margin:0px;">
-<div style="box-sizing: border-box; width:40%; height:70%; margin:20px; float:left">
+<div style="box-sizing: border-box; width:40%; height:75%; margin:20px; float:left">
     <div style="width:100%; height: 100%; border: 1px solid red; box-sizing: border-box">
         {% if client_img %}
-            <img src=client_img style="width:100%; height:100%">
+            <img src={{client_img}} style="width:70%;">
         {% else %}
-            <img src='/static/basic.jpg' style="width:100%; height:100%;">
+            <img src='./static/basic.jpg' style="width:50%;">
         {% endif %}
     </div>
     <form action="{{url_for('main.create')}}" method="post" enctype="multipart/form-data">
@@ -19,12 +19,12 @@
     </form>
 </div>
 
-<div style="box-sizing: border-box; width:40%; height:70%; margin:20px; float:left">
+<div style="box-sizing: border-box; width:40%; height:75%; margin:20px; float:left">
     <div style="width:100%; height: 100%; border: 1px solid red; box-sizing: border-box">
         {% if faculty %}
-            <img src=faculty style="width:100%; height:100%">
+            <img src={{faculty}} style="width:50%;">
         {% else %}
-            <h3>어떤 교수님과 닮았을 까요?</h3>
+            <h3>어떤 교수님과 닮았을까요?</h3>
         {% endif %}
     </div>
     <div>

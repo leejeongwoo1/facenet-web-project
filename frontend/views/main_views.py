@@ -42,9 +42,10 @@ def main():
 
 @bp.route('/',methods=('POST',))
 def create():
-    model = keras.models.load_model('./model/facenet_keras.h5')
+
     file = request.files['file']
-    path = "./client_img/"+(file.filename)
+    path = "./frontend/static/client_img/"+(file.filename)
+    path_ = "./static/client_img/"+(file.filename)
     file.save(path)
     model = keras.models.load_model('./model/facenet_keras.h5')
     emb = embeddings.get_embedding_from_one_pic(model, path)
@@ -60,5 +61,5 @@ def create():
     #print(name, min_dist)
     department = name.split('_')[0]
     name_ = name.split('_')[1]
-    faculty_path="../../../dataset/faculty/origin_img/"+name+".jpg"
-    return render_template('main/main.html', client_img=path, faculty=faculty_path, department=department, name=name_)
+    faculty_path = "./static/faculty_img/"+name+".jpg"
+    return render_template('main/main.html', client_img=path_, faculty=faculty_path, department=department, name=name_)
