@@ -5,6 +5,8 @@ from mtcnn import mtcnn
 from silence_tensorflow import silence_tensorflow
 silence_tensorflow()
 import keras
+import json
+
 def extract_face(filename, size=(160,160)):
     img = PIL.Image.open(filename).convert('RGB')
     pixels = np.asarray(img)
@@ -54,7 +56,19 @@ def get_embedding(model, face_pixels):
     return yhat[0]
 
 def get_embedding_from_one_pic(model, face_path):
-    img = PIL.Image.open(face_path).convert('RGB')
+    img = PIL.Image.open(os.path.abspath(face_path)).convert('RGB')
+
+    pixels = np.asarray(img)
+    det = mtcnn.MTCNN()
+    results = det.detect_faces(pixels)
+    if len(results)==0:
+        raise Exception("face is not detected")
+    x1, y1, width, height = results[0]['box']
+    x1, y1 = abs(x1), abs(y1)
+    face = pixels[y1: y1 + height, x1:x1 + width]
+    img = PIL.Image.fromarray(face)
+    img = img.resize((160,160))
+
     pixels = np.asarray(img)
     face_pixels = pixels.astype('float32')
     mean, std = face_pixels.mean(), face_pixels.std()
@@ -65,7 +79,24 @@ def get_embedding_from_one_pic(model, face_path):
     yhat = model.predict(samples)
     return yhat[0]
 
+def emb2json(face_path):
+    model = keras.models.load_model('C:/University/23tgthon/model/facenet_keras.h5')
+    dict = {}
+    for i in os.listdir(face_path):
+        full_path = os.path.join(face_path, i)
+        face_info = i.split('.')[0]
+        dict[face_info] = get_embedding_from_one_pic(model, full_path)
+
+    for k, v in dict.items():
+        ls = []
+        for _v in v:
+            ls.append(float(_v))
+            dict[k] = ls
+
+    with open('../model/faculty_emb.json', 'w', encoding='utf-8') as f:
+        json.dump(dict, f, ensure_ascii=False, indent=4)
+    return dict
+
+
 if __name__ == '__main__':
-    model = keras.models.load_model(os.path.abspath('../model/facenet_keras.h5'))
-    embed = get_embedding_from_one_pic(model,'../dataset/faculty/face_img/소프트웨어융합학과_강형엽.jpg')
-    print(embed)
+    emb2json('../../23tgthon/dataset/faculty/origin_img')
