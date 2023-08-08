@@ -103,4 +103,4 @@ def emb2json(face_path):
 
 
 if __name__ == '__main__':
-    emb2json('../../23tgthon/dataset/faculty/origin_img')
+    emb2json('../frontend/static/faculty_img')
