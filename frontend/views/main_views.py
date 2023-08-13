@@ -1,10 +1,5 @@
-from flask import Blueprint, url_for, render_template, request
-from werkzeug.utils import redirect, secure_filename
-import PIL
-from mtcnn import mtcnn
+from flask import Blueprint, render_template, request
 import numpy as np
-import cv2
-import os
 import json
 import sys
 import keras
@@ -35,7 +30,7 @@ def create():
         if min_dist>dist:
             min_dist=dist
             name = key
-    #print(name, min_dist)
+    print(name, min_dist)
     department = name.split('_')[0]
     name_ = name.split('_')[1]
     faculty_path = "./static/faculty_img/"+name+".jpg"
