@@ -6,6 +6,7 @@ from silence_tensorflow import silence_tensorflow
 silence_tensorflow()
 import keras
 import json
+import time
 
 def extract_face(filename, size=(160,160)):
     # 입력 이미지(filename)에서 얼굴 추출(MTCNN)
@@ -59,28 +60,29 @@ def get_embedding(model, face_pixels):
     yhat = model.predict(samples)
     return yhat[0]
 
-def get_embedding_from_one_pic(model, face_path):
+def get_embedding_from_one_pic(model, face_path):    # 8.611s
     img = PIL.Image.open(os.path.abspath(face_path)).convert('RGB')
-
     pixels = np.asarray(img)
-    det = mtcnn.MTCNN()
-    results = det.detect_faces(pixels)
+
+    det = mtcnn.MTCNN()    # 4.925s
+    results = det.detect_faces(pixels)    # 2.086s
+
     if len(results)==0:
         raise Exception("face is not detected")
+    
     x1, y1, width, height = results[0]['box']
     x1, y1 = abs(x1), abs(y1)
     face = pixels[y1: y1 + height, x1:x1 + width]
     img = PIL.Image.fromarray(face)
     img = img.resize((160,160))
-
     pixels = np.asarray(img)
     face_pixels = pixels.astype('float32')
     mean, std = face_pixels.mean(), face_pixels.std()
-
     face_pixels = (face_pixels - mean)/std
     samples = np.expand_dims(face_pixels, axis=0)
 
-    yhat = model.predict(samples)
+    yhat = model.predict(samples)    # 1.765s
+    
     return yhat[0]
 
 def emb2json(face_path):
