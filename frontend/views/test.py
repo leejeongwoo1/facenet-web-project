@@ -9,11 +9,7 @@ import time
 def create():
     keras.backend.clear_session()    # 0.009s
     model = keras.models.load_model('facenet_keras.h5')    # 37.322s
-
-    start2=time.time()
     emb = embeddings.get_embedding_from_one_pic(model, '손흥민.jpeg')    # 8.247s
-    end2=time.time()
-
     faculty_json = open('faculty_emb.json',encoding='utf-8')    # 0.000s
     faculty_dict = json.load(faculty_json)    # 0.005s
     min_dist = 100
