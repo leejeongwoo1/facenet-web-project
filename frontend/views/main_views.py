@@ -1,11 +1,14 @@
 from flask import Blueprint, render_template, request
 import numpy as np
+from facenet_pytorch import MTCNN, InceptionResnetV1
 import json
 import sys
-import keras
+from PIL import Image
 sys.path.append('../../')
-from src import embeddings
 bp = Blueprint('main',__name__,url_prefix='/')
+
+mtcnn = MTCNN(image_size=160, margin=0)
+resnet = InceptionResnetV1(pretrained='vggface2').eval()
 
 @bp.route('/')
 def main():
@@ -18,14 +21,17 @@ def create():
     path = "./frontend/static/client_img/"+(file.filename)
     path_ = "./static/client_img/"+(file.filename)
     file.save(path)
-    keras.backend.clear_session()
-    model = keras.models.load_model('./model/facenet_keras.h5')
-    emb = embeddings.get_embedding_from_one_pic(model, path)
+    img = Image.open(path)
+    img_cropped = mtcnn(img)
+
+    emb = resnet(img_cropped.unsqueeze(0))[0].detach().numpy()
     faculty_json = open('./model/faculty_emb.json',encoding='utf-8')
     faculty_dict = json.load(faculty_json)
     min_dist = 100
     name = ""
     for key in faculty_dict:
+        print('faculty:',type(faculty_dict[key][0]))
+        print('emb:',type(emb[0]))
         dist = np.linalg.norm(faculty_dict[key]-emb)
         if min_dist>dist:
             min_dist=dist
