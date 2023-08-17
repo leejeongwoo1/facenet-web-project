@@ -1,28 +1,37 @@
 import numpy as np
+from facenet_pytorch import MTCNN, InceptionResnetV1
 import json
-import sys
-import keras
-sys.path.append('../../')
-from src import embeddings
+from PIL import Image
 import time
 
+mtcnn = MTCNN(image_size=160, margin=0)
+resnet = InceptionResnetV1(pretrained='vggface2').eval()
+
 def create():
-    keras.backend.clear_session()    # 0.009s
-    model = keras.models.load_model('facenet_keras.h5')    # 37.322s
-    emb = embeddings.get_embedding_from_one_pic(model, '손흥민.jpeg')    # 8.247s
-    faculty_json = open('faculty_emb.json',encoding='utf-8')    # 0.000s
-    faculty_dict = json.load(faculty_json)    # 0.005s
+    start=time.time()
+
+    img = Image.open("../static/client_img/손흥민.jpeg")
+    img_cropped = mtcnn(img)
+
+    emb = resnet(img_cropped.unsqueeze(0))[0].detach().numpy()
+    faculty_json = open('../../model/faculty_emb.json',encoding='utf-8')
+    faculty_dict = json.load(faculty_json)
     min_dist = 100
     name = ""
-
-    # 0.002s
-    for key in faculty_dict:    
+    for key in faculty_dict:
+        print('faculty:',type(faculty_dict[key][0]))
+        print('emb:',type(emb[0]))
         dist = np.linalg.norm(faculty_dict[key]-emb)
         if min_dist>dist:
             min_dist=dist
             name = key
-    
-    print(f'예측 결과 : 교수님 성함-{name}, in_dist-{min_dist}')   
+    print(name, min_dist)
+    department = name.split('_')[0]
+    name_ = name.split('_')[1]
+    faculty_path = "../static/faculty_img/"+name+".jpg"
+
+    end=time.time()
+    print(f"전체 소요 시간 : {end-start:.5f}")
 
 if __name__=="__main__":
-    create()    # 45.59s
+    create()

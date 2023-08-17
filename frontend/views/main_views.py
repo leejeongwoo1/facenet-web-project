@@ -4,6 +4,7 @@ from facenet_pytorch import MTCNN, InceptionResnetV1
 import json
 import sys
 from PIL import Image
+import time
 sys.path.append('../../')
 bp = Blueprint('main',__name__,url_prefix='/')
 
@@ -16,6 +17,7 @@ def main():
 
 @bp.route('/',methods=('POST',))
 def create():
+    start=time.time()
 
     file = request.files['file']
     path = "./frontend/static/client_img/"+(file.filename)
@@ -41,4 +43,6 @@ def create():
     name_ = name.split('_')[1]
     faculty_path = "./static/faculty_img/"+name+".jpg"
 
+    end=time.time()
+    print(f"전체 소요 시간 : {end-start:.5f}")
     return render_template('main/main.html', client_img=path_, faculty=faculty_path, department=department, name=name_)
