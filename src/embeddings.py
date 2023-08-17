@@ -1,17 +1,16 @@
 import os
-
 from facenet_pytorch import MTCNN, InceptionResnetV1
 import json
 from PIL import Image
+
 mtcnn = MTCNN(image_size=160, margin=0)
 resnet = InceptionResnetV1(pretrained='vggface2').eval()
-
 
 def emb2json(face_path):
 
     dict = {}
     for i in os.listdir(face_path):
-        print(i)
+
         full_path = os.path.join(face_path, i)
         face_info = i.split('.')[0]
         img = Image.open(full_path)
