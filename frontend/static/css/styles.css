@@ -8,6 +8,10 @@
     text-align: center;
     color: #35465d;
 }
+.center_position
+{
+    margin: 0 auto;
+}
 .base_image
 {
     margin:auto;
@@ -44,6 +48,10 @@ h4{
 }
 h5{
     font-size:1.4rem;
+}
+h6{
+    font-size:2rem;
+    line-height:0;
 }
 body{
     font-family: 'Nanum Pen Script', cursive;

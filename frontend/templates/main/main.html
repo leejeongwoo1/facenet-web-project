@@ -11,20 +11,23 @@
 <body>
     <h1 class="title">닮은 교수님 찾기</h1>
     <h4 class="subtitle">얼굴로 보는 인공지능 교수님테스트</h4>
-    <div>
+    <div class="center_position">
         {% if client_img %}
-            <a class="client_img"><img src={{client_img}} style="width:400px; height:500px;"></a>
+            <span class="client_img">
+                <img src={{client_img}} style="width:400px; height:500px;">
+                <a href="/"><h6>메인화면으로 돌아가기</h6></a>
+            </span>
         {% else %}
             <img src='./static/face-id.png' class="base_image">
             <h5 class="bottom_text">제출 버튼을 누르면 교수님 사진이 업로드 됩니다!</h5>
             <h4 class="bottom_text">어떤 교수님과 닮았을까요?</h4>
         {% endif %}
         {% if faculty %}
-        <a class="faculty_img">
+        <span class="faculty_img">
             <img src={{faculty}} style="width:400px; height:500px;">
             <h3>소속: {{department}}</h3>
             <h3>성함: {{name}}</h3>
-        </a>
+        </span>
     </div>    
     {% endif %}
     <div>
