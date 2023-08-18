@@ -30,9 +30,12 @@ def create():
     min_dist = 100
     name = ""
     for key in faculty_dict:
-        print('faculty:',type(faculty_dict[key][0]))
-        print('emb:',type(emb[0]))
-        dist = np.linalg.norm(faculty_dict[key]-emb)
+        #print('faculty:',type(faculty_dict[key][0]))
+        #print('emb:',type(emb[0]))
+        normalized_faculty_emb = faculty_dict[key]/np.linalg.norm(faculty_dict[key])
+        normalized_emb = emb/np.linalg.norm(emb)
+        cosine_sim = np.dot(normalized_emb,normalized_faculty_emb)
+        dist = abs(1-cosine_sim)
         if min_dist>dist:
             min_dist=dist
             name = key
