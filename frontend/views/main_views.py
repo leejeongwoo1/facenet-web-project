@@ -37,13 +37,14 @@ def create():
         min_dist = 100
         name = ""
         for key in faculty_dict:
-            print('faculty:', type(faculty_dict[key][0]))
-            print('emb:', type(emb[0]))
+            #print('faculty:', type(faculty_dict[key][0]))
+            #print('emb:', type(emb[0]))
             dist = np.linalg.norm(faculty_dict[key] - emb)
+            print(key, dist)
             if min_dist > dist:
                 min_dist = dist
                 name = key
-        print(name, min_dist)
+        #print(name, min_dist)
         department = name.split('_')[0]
         name_ = name.split('_')[1]
         faculty_path = "./static/faculty_img/" + name + ".jpg"
