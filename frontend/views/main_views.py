@@ -44,10 +44,12 @@ def create():
                 min_dist = dist
                 name = key
         print(name, min_dist)
+        similarity_ = ((2-min_dist)/2)*100
+        similarity = round(similarity_,2)
         department = name.split('_')[0]
         name_ = name.split('_')[1]
         faculty_path = "./static/faculty_img/" + name + ".jpg"
-        return render_template('main/main.html', client_img=path_, faculty=faculty_path, department=department, name=name_)
+        return render_template('main/main.html', client_img=path_, faculty=faculty_path, department=department, name=name_,similarity=similarity)
     except (RuntimeError, AttributeError):
         return render_template('main/error_message.html',error_message="얼굴을 인식하지 못했습니다")
     except PIL.UnidentifiedImageError:
