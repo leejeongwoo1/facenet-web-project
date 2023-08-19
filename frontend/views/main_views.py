@@ -3,9 +3,10 @@ import numpy as np
 from facenet_pytorch import MTCNN, InceptionResnetV1
 import json
 import sys
+import os
 from PIL import Image
 sys.path.append('../../')
-
+import PIL
 bp = Blueprint('main', __name__, url_prefix='/')
 
 mtcnn = MTCNN(image_size=160, margin=0)
@@ -18,6 +19,11 @@ def main():
 @bp.route('/', methods=('POST',))
 def create():
     try:
+        folder = "./frontend/static/client_img"
+        for i in os.listdir("./frontend/static/client_img"):
+            if i != "client_img.txt":
+                os.remove(os.path.join(folder,i))
+
         file = request.files['file']
         path = "./frontend/static/client_img/" + (file.filename)
         path_ = "./static/client_img/" + (file.filename)
@@ -42,5 +48,13 @@ def create():
         name_ = name.split('_')[1]
         faculty_path = "./static/faculty_img/" + name + ".jpg"
         return render_template('main/main.html', client_img=path_, faculty=faculty_path, department=department, name=name_)
+    except (RuntimeError, AttributeError):
+        return render_template('main/error_message.html',error_message="얼굴을 인식하지 못했습니다")
+    except PIL.UnidentifiedImageError:
+        return render_template('main/error_message.html', error_message="올바른 형식이 아닙니다")
+    except PermissionError:
+        return render_template('main/error_message.html', error_message="입력된 이미지가 없습니다")
     except:
-        return render_template('main/error_message.html')
+        exc_type, exc_value, exc_traceback = sys.exc_info()
+        print(exc_type, exc_value, exc_traceback)
+        return render_template('main/error_message.html',error_message="알 수 없는 에러")

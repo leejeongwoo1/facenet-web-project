@@ -34,8 +34,8 @@
         <form action="{{url_for('main.create')}}" method="post" enctype="multipart/form-data">
             {% if not client_img %}
             <div class="filebox" style="display: flex; justify-content: center;">
-                <label for="ex_file">얼굴 사진 선택(png,jpeg파일만허용)</label>
-                <input type="file" name="file" id="ex_file" accept=".png, .jpeg" >
+                <label for="ex_file">얼굴 사진 선택(png,jpeg,jpg파일만허용)</label>
+                <input type="file" name="file" id="ex_file" accept=".png, .jpeg, .jpg" >
             </div>
             <div class="submitbox" style="display: flex; justify-content: center;">
                 <input type="submit">  
