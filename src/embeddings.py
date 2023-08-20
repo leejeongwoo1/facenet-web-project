@@ -23,10 +23,10 @@ def emb2json(face_path):
             ls.append(float(_v))
             dict[k] = ls
 
-    with open('../model/faculty_emb.json', 'w', encoding='utf-8') as f:
+    with open('../model/face_dataset_emb.json', 'w', encoding='utf-8') as f:
         json.dump(dict, f, ensure_ascii=False, indent=4)
     return dict
 
 
 if __name__ == '__main__':
-    emb2json('../frontend/static/faculty_img')
+    emb2json('../frontend/static/face_dataset')
