@@ -32,7 +32,7 @@ def create():
         img_cropped = mtcnn(img)
 
         emb = resnet(img_cropped.unsqueeze(0))[0].detach().numpy()
-        faculty_json = open('./model/faculty_emb.json', encoding='utf-8')
+        faculty_json = open('./model/dataset_emb.json', encoding='utf-8')
         faculty_dict = json.load(faculty_json)
         min_dist = 100
         name = ""
@@ -49,7 +49,7 @@ def create():
         similarity = round(similarity_,2)
         department = name.split('_')[0]
         name_ = name.split('_')[1]
-        faculty_path = "./static/faculty_img/" + name + ".jpg"
+        faculty_path = "./static/face_dataset/" + name + ".jpg"
         return render_template('main/main.html', client_img=path_, faculty=faculty_path, department=department, name=name_,similarity=similarity)
     except (RuntimeError, AttributeError):
         return render_template('main/error_message.html',error_message="얼굴을 인식하지 못했습니다")
