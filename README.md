@@ -29,6 +29,6 @@ You can give a face iamge to web application, then web application shows someone
 [facenet](https://github.com/davidsandberg/facenet)
 [lovelyzDetector using facenet](https://github.com/hayunjong83/lovelyzDetector)
 # web preview
-## <img src="./ref/main_page.png" style="zoom: 67%;"/>
-## <img src="./ref/detect_face.png" style="zoom: 67%;">
-## <img src="./ref/error_page.png" style="zoom: 67%;">
+<img src="./ref/main_page.png" style="zoom: 67%;"/>
+<img src="./ref/detect_face.png" style="zoom: 67%;">
+<img src="./ref/error_page.png" style="zoom: 67%;">
