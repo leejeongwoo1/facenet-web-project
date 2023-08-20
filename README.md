@@ -25,10 +25,13 @@ You can give a face iamge to web application, then web application shows someone
    flask run
    ```
 # reference
-[facenet-pytorch](https://github.com/timesler/facenet-pytorch)
-[facenet](https://github.com/davidsandberg/facenet)
-[lovelyzDetector using facenet](https://github.com/hayunjong83/lovelyzDetector)
+[facenet-pytorch](https://github.com/timesler/facenet-pytorch)</br>
+[facenet](https://github.com/davidsandberg/facenet)</br>
+[lovelyzDetector using facenet](https://github.com/hayunjong83/lovelyzDetector)</br>
 # web preview
+main page
 <img src="./ref/main_page.png" style="zoom: 67%;"/>
+find similary person
 <img src="./ref/detect_face.png" style="zoom: 67%;">
+error page
 <img src="./ref/error_page.png" style="zoom: 67%;">
