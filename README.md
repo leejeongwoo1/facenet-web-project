@@ -30,8 +30,8 @@ You can give a face iamge to web application, then web application shows someone
 [lovelyzDetector using facenet](https://github.com/hayunjong83/lovelyzDetector)</br>
 # web preview
 main page
-<img src="./ref/main_page.png" style="zoom: 67%;"/>
+<img src="./ref/main_page.png" style="zoom: 100%;"/>
 find similary person
-<img src="./ref/detect_face.png" style="zoom: 67%;">
+<img src="./ref/detect_face.png" style="zoom: 100%;">
 error page
-<img src="./ref/error_page.png" style="zoom: 67%;">
+<img src="./ref/error_page.png" style="zoom: 100%;">
