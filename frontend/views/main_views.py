@@ -5,6 +5,7 @@ import json
 import sys
 import os
 from PIL import Image
+import time
 sys.path.append('../../')
 import PIL
 bp = Blueprint('main', __name__, url_prefix='/')
