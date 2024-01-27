@@ -1,6 +1,6 @@
 # Find someone who looks like using facenet
 Facenet makes embedding vector and we compare between vectors to find a similar person</br>
-You can give a face iamge to web application, then web application shows someone who looks like face image
+You can give a face image to web application, then web application shows someone who looks like face image
 # How to use?
 1. install
    ```bash
